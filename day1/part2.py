@@ -27,8 +27,7 @@ from pathlib import Path
 import re
 
 num_map = {
-    'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9,
-    1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9
+    'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9
 }
 
 puzzle = Path(__file__).parent / 'puzzle.txt'  # .txt file next to .py file
@@ -39,7 +38,9 @@ def run():
     for i, p in enumerate(puzzle_lines):
         num_dict = {}
         for k, v in num_map.items():
-            for a in re.finditer(str(k), p):
+            for a in re.finditer(str(k), p):    # Find numbers written out... WHY WOULD YOU DO THAT
+                num_dict[a.start()] = v
+            for a in re.finditer(str(v), p):    # Find numbers like how they NORMALLY OUT TO BE OMG
                 num_dict[a.start()] = v
         num_positions.append(num_dict)
 
