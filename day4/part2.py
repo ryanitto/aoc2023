@@ -24,50 +24,27 @@ class Card:
         self.copies = []
 
     def get_cards(self):
-        return self.copies
-
-    def __repr__(self):
-        return f'Base #{self.id}'
-
-
-class CopyCard(Card):
-    def get_cards(self):
         result = []
         puzzle_line = int(self.id)
         lines = puzzle_lines[puzzle_line:puzzle_line+len(self.matches)]
         for l in lines:
-            self.copies.append(CopyCard(l))
+            self.copies.append(Card(l))
         return self.copies
 
-    def __repr__(self):
-        return f'Copy #{self.id}'
-
-
-class OriginalCard(Card):
-    def get_cards(self):
-        result = []
-        puzzle_line = int(self.id)
-        lines = puzzle_lines[puzzle_line:puzzle_line+len(self.matches)]
-        for l in lines:
-            self.copies.append(CopyCard(l))
-        return self.copies
-
-    def __repr__(self):
-        return f'Original #{self.id}'
 
 total = 0
 
 
-def traverse_copies(cards: list, parent: Card = None):
+def traverse_copies(cards: list):
     global total
     if cards:
         total += len(cards)
     for c in cards:
-        traverse_copies(c.get_cards(), parent=c)
+        traverse_copies(c.get_cards())
 
 
 def run():
-    og_cards = [OriginalCard(l) for l in puzzle_lines]
+    og_cards = [Card(l) for l in puzzle_lines]
     traverse_copies(og_cards)
     return total
 
